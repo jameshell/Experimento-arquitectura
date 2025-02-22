@@ -4,52 +4,35 @@ import random
 import logging
 
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+logger.setLevel(logging.INFO)
+
+# Configuración: tasa global de fallo y opciones de error
+FAILURE_RATE = 0.2  # 20% de probabilidad de fallo
+error_options = [
+    {"statusCode": 500, "body": json.dumps({"error": "Servicio temporalmente no disponible: Internal Server Error"}), "log_level": logging.CRITICAL},
+    {"statusCode": 503, "body": json.dumps({"error": "Error de autenticación: 503 Service Unavailable"}), "log_level": logging.ERROR},
+    {"statusCode": 102, "body": json.dumps({"error": "Servicio temporalmente no disponible: Processing"}), "log_level": logging.INFO},
+    {"statusCode": 429, "body": json.dumps({"error": "Servicio temporalmente no disponible: Too Many Requests"}), "log_level": logging.WARNING},
+]
 
 def lambda_handler(event, context):
-    if random.random() < 0.2:
+    # Determinar si se simula un fallo
+    if random.random() < FAILURE_RATE:
+        error_choice = random.choice(error_options)
+        logger.setLevel(error_choice["log_level"])
         print("Simulando una falla en la Lambda...")
-        logger.setLevel(logging.CRITICAL)
-        time.sleep(10)
+        time.sleep(10)  # Simula latencia en la respuesta de error
         return {
-            "statusCode": 500,
-            "body": json.dumps({"error": "Servicio temporalmente no disponible: Internal Server Error"})
+            "statusCode": error_choice["statusCode"],
+            "body": error_choice["body"]
         }
 
-    if random.random() < 0.2:
-        print("Simulando una falla en la Lambda...")
-        logger.setLevel(logging.ERROR)
-        time.sleep(10)
-        return {
-            "statusCode": 503,
-            "body": json.dumps({"error": "Error de autenticación: 503 Service Unavailable"})
-        }
-
-    if random.random() < 0.2:
-        print("Simulando una falla en la Lambda...")
-        logger.setLevel(logging.INFO)
-        time.sleep(10)
-        return {
-            "statusCode": 102,
-            "body": json.dumps({"error": "Servicio temporalmente no disponible:Processing"})
-        }
-
-    if random.random() < 0.2:
-        print("Simulando una falla en la Lambda...")
-        logger.setLevel(logging.WARNING)
-        time.sleep(10)
-        return {
-            "statusCode": 429,
-            "body": json.dumps({"error": "Servicio temporalmente no disponible: Too Many Requests"})
-        }
-
+    # Respuesta exitosa
     return {
         'statusCode': 200,
         "headers": {"Content-Type": "application/json"},
-        "body": json.dumps(
-            {
-                "message": "Hello from AWS Lambda via API Gateway!",
-                "event": event,
-            }
-        )
+        "body": json.dumps({
+            "message": "Hello from AWS Lambda via API Gateway!",
+            "event": event,
+        })
     }
