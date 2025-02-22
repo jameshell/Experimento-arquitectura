@@ -6,17 +6,13 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # Configuración del porcentaje de fallo
-FAILURE_RATE = 0.2  # 20% de errores
-ERROR_RESPONSES = [
-    (500, "Internal Server Error"),
-    (503, "Service Unavailable"),
-    (429, "Too Many Requests"),
-]
+FAILURE_RATE = 0.1  # 10% de errores
 
 def lambda_handler(event, context):
     # Determinar si debe fallar
     if random.random() < FAILURE_RATE:
-        status_code, error_msg = random.choice(ERROR_RESPONSES)
+        status_code = 500
+        error_msg = "Internal Server Error"
         logger.warning(f"Simulando error {status_code}: {error_msg}")
         return {
             "statusCode": status_code,
