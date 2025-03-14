@@ -6,7 +6,9 @@ from aws_cdk import (
     aws_cloudwatch as cloudwatch,
     aws_logs as logs,
     aws_events as events,
-    aws_events_targets as targets
+    aws_events_targets as targets,
+    aws_cognito as cognito,
+    CfnOutput
     # aws_sqs as sqs,
 )
 from constructs import Construct
@@ -15,6 +17,69 @@ class PythonCdkStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        #Create a Cognito User Pool
+        user_pool = cognito.UserPool(
+            self,
+            "TestUserPool",
+            user_pool_name="test-user-pool",
+            self_sign_up_enabled=False,  # Disable self-signup
+            sign_in_aliases=cognito.SignInAliases(
+                email=True,  # Allow sign-in with email
+            ),
+            standard_attributes=cognito.StandardAttributes(
+                email=cognito.StandardAttribute(
+                    required=True,
+                    mutable=True,
+                ),
+            ),
+            password_policy=cognito.PasswordPolicy(
+                min_length=8,
+                require_lowercase=True,
+                require_uppercase=True,
+                require_digits=True,
+                require_symbols=True,
+            ),
+        )
+
+        # Create a User Pool Client
+        user_pool_client = cognito.UserPoolClient(
+            self,
+            "TestUserPoolClient",
+            user_pool=user_pool,
+            generate_secret=False,  # Set to True if you need a client secret
+        )
+
+        # Create Admin Group
+        admin_group = cognito.CfnUserPoolGroup(
+            self,
+            "AdminGroup",
+            user_pool_id=user_pool.user_pool_id,
+            group_name="Admins",
+            description="Administrator group",
+        )
+
+        # Create Users Group
+        users_group = cognito.CfnUserPoolGroup(
+            self,
+            "UsersGroup",
+            user_pool_id=user_pool.user_pool_id,
+            group_name="Users",
+            description="Regular users group",
+        )
+
+        # Output important values
+        CfnOutput(
+            self,
+            "UserPoolId",
+            value=user_pool.user_pool_id,
+        )
+
+        CfnOutput(
+            self,
+            "UserPoolClientId",
+            value=user_pool_client.user_pool_client_id,
+        )
 
         # The code that defines your stack goes here
         lambda_function = lambda_.Function(
@@ -42,7 +107,7 @@ class PythonCdkStack(Stack):
             self,
             "LambdaDurationAlarm",
             metric=lambda_function.metric_duration(),
-            threshold=5000,  # 5 seconds
+            threshold=3000,  # 3 seconds
             evaluation_periods=1,
             alarm_description="Alarm if the Lambda function duration exceeds 5 seconds",
             alarm_name="LambdaFunctionDuration",

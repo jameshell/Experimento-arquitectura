@@ -6,7 +6,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # Configuración del porcentaje de fallo
-FAILURE_RATE = 0.2  # 20% de errores
+FAILURE_RATE = 0.01  # 20% de errores
 ERROR_RESPONSES = [
     (500, "Internal Server Error"),
     (503, "Service Unavailable"),
