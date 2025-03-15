@@ -14,10 +14,11 @@
 <body>
     <div class="container">
         <h1>Login to Ventas App</h1>
+
         <form id="loginForm">
             <div>
                 <label for="email">Email:</label>
-                <input type="email" id="email" value="jaimea111@gmail.com" required>
+                <input type="email" id="email" required>
             </div>
 
             <div>
@@ -29,6 +30,11 @@
         </form>
 
         <div class="result" id="result"></div>
+
+        <div style="margin-top: 20px;">
+            <button id="callApi" style="display: none;">Call API</button>
+            <div class="result" id="apiResult"></div>
+        </div>
     </div>
 
     <script src="app.js"></script>
