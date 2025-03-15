@@ -136,17 +136,25 @@ class PythonCdkStack(Stack):
             alarm_name="LambdaFunctionInvocations",
         )
 
-        # Create an API Gateway and connect it to the Lambda function
-        api = apigw.LambdaRestApi(
-            self, "ventasAPI",
-            handler=lambda_function,
-            proxy=True  # Set `proxy=True` for automatic API mapping to Lambda
+
+        cognito_authorizer = apigw.CognitoUserPoolsAuthorizer(
+            self,
+            "CognitoAuthorizer",
+            cognito_user_pools=[user_pool]
         )
-        # example resource
-        # queue = sqs.Queue(
-        #     self, "PythonCdkQueue",
-        #     visibility_timeout=Duration.seconds(300),
-        # )
+
+        # Create an API Gateway and connect it to the Lambda function with the Cognito Authorizer
+        api = apigw.LambdaRestApi(
+            self,
+            "ventasAPI",
+            handler=lambda_function,
+            proxy=True,
+            default_method_options=apigw.MethodOptions(
+                authorization_type=apigw.AuthorizationType.COGNITO,
+                authorizer=cognito_authorizer
+            )
+        )
+
 
 
 
