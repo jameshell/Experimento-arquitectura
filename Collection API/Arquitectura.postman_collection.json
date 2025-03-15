@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "fd48cfa9-bcad-410b-88da-be35ade0aa10",
+		"name": "Arquitectura",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2650746"
+	},
+	"item": [
+		{
+			"name": "Auth Admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJRR2dHOWJaQWNzU25sc0pqMVZJUlpPQjBXWGpSZ21VXC9rcFIrZmVJY3htOD0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhNDE4NjQ1OC1hMDQxLTcwNzMtYjNmYy05MmQxNjEzOWQ0YmUiLCJjb2duaXRvOmdyb3VwcyI6WyJBZG1pbnMiXSwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX0pUUDg3bFNSRiIsImNvZ25pdG86dXNlcm5hbWUiOiJhNDE4NjQ1OC1hMDQxLTcwNzMtYjNmYy05MmQxNjEzOWQ0YmUiLCJvcmlnaW5fanRpIjoiMDU4OTE1NTQtOTk0Ny00OWM4LWFkOTAtZDQ0MGU1ZGMzYTlmIiwiYXVkIjoiM2FlaDVlNWQwcnB2ZjQxZmo0NjhycWRjazMiLCJldmVudF9pZCI6ImYxYTczOTJmLWRiNWYtNDFiMy1iM2VkLTZhMjBhZGU3YzUyNSIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNzQyMDEyMDc0LCJleHAiOjE3NDIwMTU2NzMsImlhdCI6MTc0MjAxMjA3NCwianRpIjoiNWY1ZTNlMzctOGM0NC00Yjc4LWIwYWUtMzFkYzY2ODZjNzNhIiwiZW1haWwiOiJqYWltZWExMTFAZ21haWwuY29tIn0.Ggks874LU8rkoqmO_IlUZJYmo8XBu5VHCduPcbexYbsKrCI5jdnQQEa-T4D9sqdF2AABVqFUWu7U54GDwwi0lef1f-4CLCdqPA7OQb9sz3uJE2cdFtJ76pN0msW3Nuw2MinLD2VL7EcGpYyrICk92RLoKStPsP2Cuv5C2SKwDC4gyHD27OQomdJKKPhbNK2dMCoJk3kCctkZhIyToHvKv8Uyoj1nNjn569tX42ovYezHAOA3RxsWxCI6IQ67TOqJt4RhOAUOIPsbKiZHdqfqF4ML-alvxn4Rwa_Z4etxP5CqLosIzxWUnTXws6m7qhJl0J_WnOtigccYbjz_5WSOiA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ociit27b9c.execute-api.us-east-1.amazonaws.com/prod/",
+					"protocol": "https",
+					"host": [
+						"ociit27b9c",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"prod",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth Usuario",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJRR2dHOWJaQWNzU25sc0pqMVZJUlpPQjBXWGpSZ21VXC9rcFIrZmVJY3htOD0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmNDk4OTQzOC1lMDMxLTcwZTMtYzE1My0xOTkzMzA3YjJjMjgiLCJjb2duaXRvOmdyb3VwcyI6WyJVc2VycyJdLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfSlRQODdsU1JGIiwiY29nbml0bzp1c2VybmFtZSI6ImY0OTg5NDM4LWUwMzEtNzBlMy1jMTUzLTE5OTMzMDdiMmMyOCIsIm9yaWdpbl9qdGkiOiIwZTNhMjU3NC1hYzcyLTQzNWMtYjkyYy0zMThjNzFjODkzMDEiLCJhdWQiOiIzYWVoNWU1ZDBycHZmNDFmajQ2OHJxZGNrMyIsImV2ZW50X2lkIjoiYjdkYjlkMzYtZTg2NS00Y2QwLWE2ZTQtMzQzZDFlYTE4NGMzIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3NDIwMTQ0MjIsImV4cCI6MTc0MjAxODAyMiwiaWF0IjoxNzQyMDE0NDIyLCJqdGkiOiJiYmZmZTE1Ny0zNDg4LTQyMzAtODZjZC1kMmViZjAyMmZkMDkiLCJlbWFpbCI6ImNhbWlzLjA2OUBnbWFpbC5jb20ifQ.HGDIqIkn6bptY_s9kOg5wT1RL5i7sWrgwQCQzd99OrJN2DOCtac4a0Qc_5yUHWgaWde2z9TO_N2FdpK6DQFnCFEfZxzN_qxxAI02LGH90yW-TYwbLjWKQk10NFxzC4eUPIXS3zspkYGUMv7zgunjjjKNKlkgYjg3XWg-9EKRhxhjDqSNB1_DoBsx7aVYqI-VUwz5t5ymTwWM-2K71kd1ZKHt4pYboimHuKjzQLYFWPoiwjuQ2b-wlTZV5seCV3vAP-9CKwRD8jV8WYznvdtvrHd1KzGiSmhZ5DgiOu9XjOW3eqAZf5oE64fQEpjEIJNciG6QWCWo5h-uKVWEhCuoVw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ociit27b9c.execute-api.us-east-1.amazonaws.com/prod/",
+					"protocol": "https",
+					"host": [
+						"ociit27b9c",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"prod",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth Usuario Token Modificado",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJRR2dHOWJaQWNzU25sc0pqMVZJUlpPQjBXWGpSZ21VL2twUitmZUljeG04PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJmNDk4OTQzOC1lMDMxLTcwZTMtYzE1My0xOTkzMzA3YjJjMjgiLCJjb2duaXRvOmdyb3VwcyI6WyJBZG1pbnMiXSwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOi8vY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb20vdXMtZWFzdC0xX0pUUDg3bFNSRiIsImNvZ25pdG86dXNlcm5hbWUiOiJmNDk4OTQzOC1lMDMxLTcwZTMtYzE1My0xOTkzMzA3YjJjMjgiLCJvcmlnaW5fanRpIjoiMGUzYTI1NzQtYWM3Mi00MzVjLWI5MmMtMzE4YzcxYzg5MzAxIiwiYXVkIjoiM2FlaDVlNWQwcnB2ZjQxZmo0NjhycWRjazMiLCJldmVudF9pZCI6ImI3ZGI5ZDM2LWU4NjUtNGNkMC1hNmU0LTM0M2QxZWExODRjMyIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNzQyMDE0NDIyLCJleHAiOjE3NDIwMTgwMjIsImlhdCI6MTc0MjAxNDQyMiwianRpIjoiYmJmZmUxNTctMzQ4OC00MjMwLTg2Y2QtZDJlYmYwMjJmZDA5IiwiZW1haWwiOiJjYW1pcy4wNjlAZ21haWwuY29tIn0.bd04BlH08GomjErDoE4tbFTDfxNYBCPOD2dHiDhVSKsBVfuAWmzTERhICio1-gR2XVKM2uYnVYoYN6jAPqeiBEPXQlu8ilkCDs7cvnTN1jS6iriSc-LV_Rc32MQLpIRhsXnmL6i2j7KnVjkL25iuvT1PXgSqRePNo9LDnDBiNW_xyVrK_vV7BWVcZg30fOLc2R-WVkW_-gFmr8EtOtTP4DKYsjsJzTdKS4OubSSqt4QHDxjyPKBfMr-nZWu9LLhn3Tjq3ukep3Fb5Z65QTMhTswxh04Qex1vaP7GUVa2dpi78rDNq7En0n3cvZb64lGUbdKPkuFfmHs64x-31p1x4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ociit27b9c.execute-api.us-east-1.amazonaws.com/prod/",
+					"protocol": "https",
+					"host": [
+						"ociit27b9c",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"prod",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
