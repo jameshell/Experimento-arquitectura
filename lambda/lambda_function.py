@@ -1,31 +1,69 @@
 import json
-import random
-import logging
+import os
+import jwt
+import requests
+from jwt.algorithms import RSAAlgorithm
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+# Obtener la URL de las claves públicas de Cognito
+JWKS_URL = f"https://cognito-idp.{os.environ['REGION']}.amazonaws.com/{os.environ['USER_POOL_ID']}/.well-known/jwks.json"
 
-# Configuración del porcentaje de fallo
-FAILURE_RATE = 0.01  # 20% de errores
-ERROR_RESPONSES = [
-    (500, "Internal Server Error"),
-    (503, "Service Unavailable"),
-    (429, "Too Many Requests"),
-]
+
+def get_signing_key(kid):
+
+    try:
+        response = requests.get(JWKS_URL)
+        jwks = response.json()
+        for key in jwks['keys']:
+            if key['kid'] == kid:
+                return RSAAlgorithm.from_jwk(json.dumps(key))
+    except Exception as e:
+        print("Error obteniendo JWKS:", e)
+    return None
+
 
 def lambda_handler(event, context):
-    # Determinar si debe fallar
-    if random.random() < FAILURE_RATE:
-        status_code, error_msg = random.choice(ERROR_RESPONSES)
-        logger.warning(f"Simulando error {status_code}: {error_msg}")
+
+    token = event.get("headers", {}).get("Authorization", "").replace("Bearer ", "")
+
+    if not token:
         return {
-            "statusCode": status_code,
-            "body": json.dumps({"error": error_msg})
+            "statusCode": 401,
+            "body": json.dumps({"message": "Token no proporcionado"})
         }
 
-    # Respuesta exitosa
-    return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({"message": "Hello from AWS Lambda!", "event": event})
-    }
+    try:
+        # Decodificar sin verificar para extraer el 'kid'
+        unverified_header = jwt.get_unverified_header(token)
+        signing_key = get_signing_key(unverified_header["kid"])
+
+        if not signing_key:
+            return {
+                "statusCode": 401,
+                "body": json.dumps({"message": "Clave de firma no encontrada"})
+            }
+
+        # Verificar el token
+        decoded_token = jwt.decode(
+            token,
+            signing_key,
+            algorithms=["RS256"],
+            audience=os.environ["CLIENT_ID"]
+        )
+
+        print("Acceso permitido a:", decoded_token)
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"message": "Bienvenido!", "user": decoded_token})
+        }
+
+    except jwt.ExpiredSignatureError:
+        return {
+            "statusCode": 401,
+            "body": json.dumps({"message": "El token ha expirado"})
+        }
+    except jwt.InvalidTokenError:
+        return {
+            "statusCode": 401,
+            "body": json.dumps({"message": "Token inválido"})
+        }
